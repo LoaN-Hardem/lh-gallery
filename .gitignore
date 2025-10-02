@@ -25,3 +25,6 @@ dist-ssr
 
 # variaveis de ambiente
 .env.local
+
+# guia de desenvolvimento
+guiaDeCommit.md

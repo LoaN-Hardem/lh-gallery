@@ -24,7 +24,7 @@ dist-ssr
 *.sw?
 
 # variaveis de ambiente
-.env.local
+.env
 
 # guia de desenvolvimento
 guiaDeCommit.md

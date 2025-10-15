@@ -9,7 +9,7 @@ const appContent = document.getElementById("app-content");
 // Mapeamento das rotas para as Views
 const routes = {
   "/": "home", // Será carregado de src/views/HomeView.js
-  "/gallery": "hallery", // Será carregado de src/views/GalleryView.js
+  "/gallery": "gallery", // Será carregado de src/views/GalleryView.js
   "/image/:id": "image", // Será carregado de src/views/ImageView.js
 };
 

@@ -1,42 +1,81 @@
 // src/views/HomeView.js
 
 /**
- * O módulo HomeView define a estrutura HTML da página inicial.
- * Uma View é responsável por construir a interface.
+ * Módulo HomeView.
+ * Define a estrutura HTML da página inicial com vídeo de fundo.
  */
 const HomeView = {
   /**
    * Função para renderizar o HTML da View.
-   * @param {object} params - Parâmetros da URL, se houver.
    * @returns {string} - O HTML a ser injetado no <main>.
    */
-  render: (params) => {
-    // Usando classes Tailwind para um layout inicial
+  render: () => {
+    // O path do vídeo é relativo à pasta 'public' do Vite
+    const videoPath = "/lh-gallery.mp4";
+
+    // Estrutura do HTML:
+    // 1. Container principal (relative, h-screen)
+    // 2. Elemento <video> (absolute, object-cover, z-index -1)
+    // 3. Camada de Overlay Escura (opcional, para melhorar a leitura do texto, z-index 0)
+    // 4. Conteúdo do Texto (z-index 10, centralizado)
+
     return `
-            <section class="min-h-screen flex items-center justify-center bg-gray-50 p-6">
-                <div class="text-center max-w-2xl">
-                    <h1 class="text-6xl font-display text-brand-dark mb-4">
-                        Bem-vindo(a) à LH Gallery
+            <section class="relative h-screen flex items-center justify-center overflow-hidden">
+                
+                <video 
+                    autoplay 
+                    loop 
+                    muted 
+                    playsinline 
+                    class="absolute top-0 left-0 w-full h-full object-cover z-0"
+                    id="background-video"
+                >
+                    <source src="${videoPath}" type="video/mp4">
+                    Seu navegador não suporta a tag de vídeo.
+                </video>
+                
+                <div class="absolute top-0 left-0 w-full h-full bg-black opacity-30 z-10"></div>
+                
+                <div class="relative text-center z-20 text-white p-6 md:p-12">
+                    <h1 class="text-7xl md:text-8xl font-display font-extrabold tracking-widest uppercase mb-2 drop-shadow-lg">
+                        LH GALLERY
                     </h1>
-                    <p class="text-xl text-gray-700 mb-8">
-                        Sua vitrine exclusiva de arte digital, criada inteiramente com Inteligência Artificial.
-                        Um projeto SPA construído com **Vanilla JS**, **Vite** e **Tailwind CSS**.
+                    <p class="text-xl md:text-2xl font-sans font-light tracking-widest uppercase mb-10 drop-shadow-md">
+                        LOAN HARDEM
                     </p>
-                    <a href="/gallery" class="inline-block px-8 py-3 text-lg font-semibold text-white bg-brand-DEFAULT rounded-lg shadow-lg hover:bg-brand-dark transition duration-300">
-                        Explorar Galeria
+                    
+                    <a href="/gallery" class="inline-block px-10 py-4 text-xl font-semibold text-white border-2 border-white rounded-lg shadow-xl bg-transparent hover:bg-white hover:text-black transition duration-300 transform hover:scale-105">
+                        Explorar Coleção
                     </a>
                 </div>
+                
             </section>
         `;
   },
 
   /**
-   * Função opcional para adicionar lógica após a renderização (event listeners, etc.)
-   * @param {object} params - Parâmetros da URL.
+   * Lógica pós-renderização.
    */
-  afterRender: (params) => {
-    console.log("HomeView renderizada e pronta.");
-    // Não precisamos de lógica complexa aqui ainda.
+  afterRender: () => {
+    console.log("HomeView com vídeo renderizada e pronta.");
+
+    // Garantir que o container <main> utilize toda a altura da tela
+    const main = document.getElementById("app-content");
+    if (main) {
+      // Opcional: Garante que o main container não introduza margens indesejadas
+      main.classList.add("p-0", "m-0");
+    }
+
+    // Tenta iniciar a reprodução do vídeo (Alguns navegadores bloqueiam o autoplay)
+    const video = document.getElementById("background-video");
+    if (video) {
+      video.play().catch((error) => {
+        console.warn(
+          "Autoplay do vídeo bloqueado. Clique para interagir.",
+          error
+        );
+      });
+    }
   },
 };
 
